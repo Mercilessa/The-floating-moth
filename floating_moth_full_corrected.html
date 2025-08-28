@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Floating Moth</title>
+<style>
+    body{font-family:Georgia,serif;line-height:1.6;margin:0;background:linear-gradient(135deg,#1e3c72 0%,#2a5298 50%,#7e8ba3 100%);color:#2c1810}
+    .book-container{max-width:900px;margin:0 auto;background:#f9f7f4;box-shadow:0 0 30px rgba(0,0,0,.3)}
+    .cover{background:linear-gradient(45deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#f4f1e8;padding:56px 40px;text-align:center;position:relative;overflow:hidden}
+    .title{font-size:48px;margin:0 0 12px;text-shadow:3px 3px 6px rgba(0,0,0,.5),0 0 20px rgba(244,241,232,.3);background:linear-gradient(45deg,#f4f1e8,#ffd700,#f4f1e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;font-weight:bold;animation:shimmer 3s ease-in-out infinite}
+    @keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    .subtitle{opacity:.95;margin:0;font-size:18px;color:#e6daa6;text-shadow:1px 1px 3px rgba(0,0,0,.4);font-style:italic;letter-spacing:1px;animation:fadeIn 2s ease-in}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:.95;transform:translateY(0)}}
+    .page{padding:40px 48px;border-top:1px solid #eadfcd}
+    .chapter-title{font-size:28px;margin:0 0 18px;color:#8b4513;text-align:center;border-bottom:2px solid #d4af37;padding-bottom:8px}
+    .illustration{margin:24px 0;position:relative}
+    .scene{position:relative;height:260px;border:2px solid #1a252f;border-radius:12px;background:linear-gradient(#2c3e50,#34495e);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+    .sofa{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);width:320px;height:64px;background:#8b4513;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.45)}
+    .sofa:before{content:"";position:absolute;top:-12px;left:14px;right:14px;height:22px;background:#a0522d;border-radius:10px}
+    .moth{position:absolute;top:54px;left:58%;width:30px;height:20px;background:#ddd;border-radius:50%;box-shadow:0 0 14px rgba(255,255,255,.85);animation:float 2s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    .web{position:absolute;top:34px;left:55%;width:86px;height:86px;opacity:.35;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,10 L50,90 M10,50 L90,50 M25,25 L75,75 M75,25 L25,75" stroke="%23ffffff" stroke-width="1" opacity="0.7"/><circle cx="50" cy="50" r="40" fill="none" stroke="%23ffffff" stroke-width="1" opacity="0.5"/></svg>')}
+    /* Characters */
+    .character{position:absolute;display:flex;flex-direction:column;align-items:center}
+    .head{width:24px;height:24px;border-radius:50%}
+    .body{width:20px;height:40px;border-radius:10px;margin-top:2px}
+    .me .head{background:#4ecdc4}.me .body{background:#45b7d1}
+    .blue .head{background:#45b7d1}.blue .body{background:#3498db}
+    .orange .head{background:#ffa726}.orange .body{background:#ff9800}
+    .green .head{background:#96ceb4}.green .body{background:#85c1a8}
+    /* Canonical locations */
+    .me-stand-by-sofa{bottom:24px;left:56%}
+    .me-by-door{bottom:18px;left:16px}
+    .blue-lying{bottom:96px;left:30%;transform:rotate(90deg)}
+    .blue-investigate{bottom:90px;left:58%}
+    .orange-sofa{bottom:90px;left:43%}
+    .green-sofa{bottom:90px;left:50%;transform:translateX(-10%)}
+    .orange-stand{bottom:120px;left:43%}
+    .green-stand{bottom:120px;left:50%;transform:translateX(-10%)}
+    .orange-stand-left{bottom:120px;left:120px}
+    .green-stand-left{bottom:120px;left:170px}
+    .floor{position:absolute;bottom:18px;right:22px;width:86px;height:15px;background:#d2691e;border-radius:10px;opacity:.7}
+    /* Door fixed bottom-left */
+    .door{position:absolute;bottom:10px;left:10px;width:32px;height:68px;background:#8b4513;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.25)}
+    .door:after{content:"";position:absolute;top:22px;right:6px;width:8px;height:8px;background:#2c1810;border-radius:50%}
+    /* Speech bubbles */
+    .bubble{position:absolute;background:#fff;border:2px solid #333;border-radius:18px;padding:10px 12px;max-width:280px;font-size:14px;box-shadow:0 2px 5px rgba(0,0,0,.2);z-index:5}
+    .bubble:after{content:"";position:absolute;bottom:-10px;left:28px;border-left:10px solid transparent;border-right:10px solid transparent;border-top:10px solid #fff}
+    .bubble.soft{background:#fffbf6}
+    .bubble.warning{background:#ffe4e1}
+    /* Panic backdrop */
+    .panic{animation:shake .5s infinite ease-in-out;background:#ffebee}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+    /* Utility */
+    .small{font-size:.95em;color:#5a4630}
+    .warning-sign{color:#ff6b6b;font-weight:bold;text-align:center;margin:14px 0;padding:10px;background:rgba(255,255,255,.5);border-radius:6px}
+</style>
+</head>
+<body>
+<div class="book-container">
+    <div class="cover">
+        <h1 class="title">The Floating Moth</h1>
+        <p class="subtitle">Trust your intuition always</p>
+    </div>
+
+    <!-- Chapter 1 -->
+    <div class="page">
+        <h2 class="chapter-title">Chapter 1: The Anomaly</h2>
+        <p>It was supposed to be a simple evening visit. Just four people relaxing in a dimly lit living room, chatting about this and that. But sometimes, the universe has other plans.</p>
+        <div class="illustration">
+            <div class="scene">
+                <div class="door"></div>
+                <div class="sofa"></div>
+                <div class="web"></div>
+                <div class="moth"></div>
+                <div class="character blue blue-lying"><div class="head"></div><div class="body" style="width:60px;height:20px"></div></div>
+                <div class="character orange orange-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="character green green-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="character me me-stand-by-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="bubble" style="top:140px;left:55%;">Wait... is that moth floating?</div>
+            </div>
+        </div>
+        <p>That's when I saw it. A moth. Just hanging there in mid-air, perfectly still, as if gravity had simply forgotten about that one particular spot in the universe.</p>
+        <div class="warning-sign">FLOATING MOTH DETECTED • Physics.exe has stopped working</div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="page">
+        <h2 class="chapter-title">Chapter 2: The Dismissal</h2>
+        <p>"Hey," I said, pointing at the impossible moth. "That's... that's not normal, right?"</p>
+        <div class="illustration">
+            <div class="scene">
+                <div class="door"></div>
+                <div class="sofa"></div>
+                <div class="web"></div>
+                <div class="moth"></div>
+                <div class="character blue blue-lying"><div class="head"></div><div class="body" style="width:60px;height:20px"></div></div>
+                <div class="character orange orange-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="character green green-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="character me me-stand-by-sofa"><div class="head"></div><div class="body"></div></div>
+                <!-- Bubbles placed for clean UX -->
+                <div class="bubble soft" style="top:6px;left:45%;">“It’s just a moth. Sit down.”</div>
+                <div class="bubble soft" style="top:60px;left:40%;">“I see nothing”</div>
+                <div class="bubble warning" style="top:125px;left:60%;">“Dead Moths don’t float! Are you saying gravity stopped working in that spot only?!”</div>
+            </div>
+        </div>
+        <p>The response was swift and unanimous: dismissal. "Just sit down," they said. "Don't make a fuss," they insisted. "It's just a moth," they claimed.</p>
+        <p>But I refused to sit. If it's dead, why isn't it falling? If it's alive, why isn't it moving?</p>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="page">
+        <h2 class="chapter-title">Chapter 3: The Investigation</h2>
+        <p>My arachnophobia kicked in. I could practically feel eight-legged eyes watching me from the shadows behind the sofa.</p>
+        <div class="illustration">
+            <div class="scene">
+                <div class="door"></div>
+                <div class="sofa"></div>
+                <div class="floor"></div>
+                <div class="character me me-by-door"><div class="head"></div><div class="body"></div></div>
+                <div class="character blue blue-lying"><div class="head"></div><div class="body" style="width:60px;height:20px"></div></div>
+                <div class="character orange orange-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="character green green-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="bubble warning" style="top:60px;left:40px;">There’s probably a whole crime scene behind that sofa!</div>
+            </div>
+        </div>
+        <p>I moved to the floor seating, felt the gaze, then went straight to the door.</p>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div class="page">
+        <h2 class="chapter-title">Chapter 4: The Discovery</h2>
+        <p>My cousin finally sat up and placed herself right in front of the floating moth. She leaned closer, stared directly at the moth and said “Oh... I see the web".</p>
+        <div class="illustration">
+            <div class="scene">
+                <div class="door"></div>
+                <div class="sofa"></div>
+                <div class="web"></div>
+                <div class="moth"></div>
+                <div class="character me me-by-door"><div class="head"></div><div class="body"></div></div>
+                <div class="character blue blue-investigate"><div class="head"></div><div class="body"></div></div>
+                <div class="character orange orange-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="character green green-sofa"><div class="head"></div><div class="body"></div></div>
+                <div class="bubble" style="top:82px;left:62%;">“HERE is the spider!”</div>
+                <div class="bubble warning" style="top:140px;left:20px;">“WE ALREADY DISCUSSED THIS — THAT’S THE MOTH CAUGHT ON THE WEB!”</div>
+            </div>
+        </div>
+        <p>Then she started wiggling the sofa using her body...</p>
+    </div>
+
+    <!-- Chapter 5 -->
+    <div class="page">
+        <h2 class="chapter-title">Chapter 5: The Reveal</h2>
+        <p>She nudged the sofa to peek. “I see a little spider. Give me a tissue.” The others were on edge too by then.</p>
+        <div class="illustration">
+            <div class="scene">
+                <div class="door"></div>
+                <div class="sofa"></div>
+                <div class="web"></div>
+                <div class="moth"></div>
+                <div class="character me me-by-door"><div class="head"></div><div class="body"></div></div>
+                <div class="character blue blue-investigate"><div class="head"></div><div class="body"></div></div>
+                <div class="character orange orange-stand"><div class="head"></div><div class="body"></div></div>
+                <div class="character green green-stand"><div class="head"></div><div class="body"></div></div>
+                <div class="bubble" style="top:44px;left:62%;">“Ah, I see a little spider. Give me a tissue.”</div>
+                <div class="bubble warning" style="top:88px;left:18px;">“Oh really?! Where do you think that little one came from?!”</div>
+            </div>
+        </div>
+        <h2 class="chapter-title">⚡ PANIC HITS HARD ⚡</h2>
+        <p>Then we heard a loud <strong style="color:#ff4757;font-size:1.1em;">GASP!</strong> Lo and behold!</p>
+        <div class="illustration">
+            <div class="scene panic">
+            <div class="door"></div>
+            <div class="sofa"></div>
+            <div class="character me me-by-door"><div class="head"></div><div class="body"></div></div>
+            <div class="character blue blue-investigate"><div class="head"></div><div class="body"></div></div>
+            <!-- Sister + host move toward door -->
+            <div class="character orange orange-stand-left"><div class="head"></div><div class="body"></div></div>
+            <div class="character green green-stand-left"><div class="head"></div><div class="body"></div></div>
+            <div class="bubble" style="top:18px;left:58%;background:#fff5f5;border-color:#ff6b6b;font-weight:bold;text-transform:uppercase;letter-spacing:0.5px;">"OH MY GOD I SEE HER! HER LEGS ARE LONG! SHE'S HUGE!!"</div>
+            </div>
+        </div>
+        </div>
+
+
+    <!-- Chapter 6 -->
+    <div class="page">
+        <h2 class="chapter-title">Chapter 6: The Exodus</h2>
+        <p>“Oh… but she’s already dead,” the cousin said. Relief. Then the bodies behind the sofa came into view.</p>
+        <div class="illustration">
+            <div class="scene">
+                <div class="door"></div>
+                <div class="sofa"></div>
+                <div class="character me me-by-door"><div class="head"></div><div class="body"></div></div>
+                <div class="character blue blue-investigate"><div class="head"></div><div class="body"></div></div>
+                <!-- Keep sister + host nearer door after panic -->
+                <div class="character orange orange-stand-left"><div class="head"></div><div class="body"></div></div>
+                <div class="character green green-stand-left"><div class="head"></div><div class="body"></div></div>
+                <div class="bubble" style="top:28px;left:60%;">“Oh… but she’s already dead.”</div>
+                <div class="bubble warning" style="top:74px;left:18px;max-width:360px;">“That’s from your nudging — your lazy curiosity killed it.”</div>
+            </div>
+        </div>
+        <p>“Yeah, that’s actually what happened.” She pulled the sofa a bit more. “My god, there are so many dead insects behind this sofa!”</p>
+        <div class="warning-sign">EVACUATION COMPLETE • Threat level neutralized (traumatic, though)</div>
+    </div>
+
+    <!-- Principle / Moral -->
+    <div class="page">
+        <h2 class="chapter-title">The Floating Moth Principle</h2>
+        <p><strong>Definition:</strong> When a visible but unexplained anomaly signals hidden danger, yet is dismissed by others until it’s too late.</p>
+        <ul class="small">
+            <li>Something looks off but everyone rationalizes it away.</li>
+            <li>The observer sees a contradiction: death plus defiance of gravity.</li>
+            <li>Warnings ignored due to inertia or cognitive laziness.</li>
+            <li>Only after escalation does the group accept reality.</li>
+        </ul>
+        <p class="small"><em>“A Floating Dead Moth moment is when something that clearly shouldn’t be happening is visible, but no one wants to acknowledge it, until consequences force them to.”</em></p>
+    </div>
+
+    <div class="page">
+        <h2 class="chapter-title">Epilogue</h2>
+        <p>We found a nest free spot, away from Shelob and her victims. The day was saved thanks to the <strong style="color:#3498db;text-shadow:1px 1px 2px rgba(52,152,219,0.3);">blue cousin's</strong> curiosity.</p>
+    </div>
+</div>
+</body>
+</html>
